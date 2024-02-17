@@ -4,6 +4,7 @@ require("globals")
 function love.load()
 	StateManager:addState("game")
 	StateManager:addState("mainmenu")
+	StateManager:addState("credits")
 	StateManager:setState("mainmenu")
 	StateManager:load()
 end

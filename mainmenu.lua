@@ -1,11 +1,10 @@
 local MainMenu = {}
 local Button = require("button")
 
-
-
-Button.new({x = 100, y = 100, w = 200, h = 70, text = "Play Game", state = "mainmenu", fn = function () StateManager:setState("game") end})
-Button.new({x = 100, y = 200, w = 200, h = 70, text = "Credits", state = "mainmenu", fn = function () end})
-Button.new({x = 100, y = 300, w = 200, h = 70, text = "Quit Game", state = "mainmenu", fn = function () love.event.quit() end})
+Button.new({w = BUTTON_W, h = BUTTON_H, text = "Play Game", state = "mainmenu", align = "center", fn = function () StateManager:setState("game") end})
+Button.new({w = BUTTON_W, h = BUTTON_H, text = "Credits", state = "mainmenu", align = "center", offsetY = 5, fn = function () StateManager:setState("credits") end})
+Button.new({w = BUTTON_W, h = BUTTON_H, text = "Quit Game", state = "mainmenu", align = "center", offsetY = 5, fn = function () love.event.quit() end})
+Button.new({w = BUTTON_W, h = BUTTON_H, text = "Quit Game", state = "mainmenu", align = "center", offsetY = 5, fn = function () love.event.quit() end})
 
 function MainMenu:load()
 end

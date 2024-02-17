@@ -1,33 +1,48 @@
 local Button = {}
 Button.__index = Button
 
--- Create a new button
----@class buttons
----@field x number x position
----@field y number y position
----@field w number width
----@field h number height
----@field fn function function we run on button release
-
 local buttons = {}
+
+---@class buttons
+---@param settings {x:integer, y:integer, w:integer, h:integer, text:string, hover:boolean, state:string, fn:function, align:string, offsetY:integer}
 function Button.new(settings)
 	local instance = setmetatable({}, Button)
 	instance.x      = settings.x or 0
 	instance.y      = settings.y or 0
-	instance.w  = settings.w or 200
-	instance.h = settings.h or 75
+	instance.w      = settings.w or 200
+	instance.h      = settings.h or 75
 	instance.text   = settings.text or "myButton"
 	instance.hover  = false
 	instance.state  = settings.state
 	instance.fn     = settings.fn or function () print(instance.text) end
+	instance.offsetY = settings.offsetY or 0
 
-	if not buttons[instance.state] then -- might refactor this
+	if not buttons[instance.state] then
 		buttons[instance.state] = {}
 	end
 
-	table.insert(buttons[instance.state], instance) -- do we really wanna store buttons in our class?
+	table.insert(buttons[instance.state], instance)
+
+	if settings.align == "center" then
+		Button:alignCenter(settings.state)
+	end
 
 	return instance
+end
+
+function Button:alignCenter(state)
+	local buttonCombinedHeight = 0
+	for i = 1, #buttons[state] do
+		local b = buttons[state][i]
+		buttonCombinedHeight = buttonCombinedHeight + b.h + b.offsetY
+	end
+
+	for i = 1, #buttons[state] do
+		local b = buttons[state][i]
+		local start = WH / 2 - (buttonCombinedHeight / 2)
+		b.y = start + ((b.h + b.offsetY) * (i-1))
+		b.x = WW / 2 - b.w / 2
+	end
 end
 
 function Button:isMouseOnButton(mx, my)
